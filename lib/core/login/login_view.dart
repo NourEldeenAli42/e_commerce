@@ -23,7 +23,7 @@ class LoginView extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: .start,
+          crossAxisAlignment: .stretch,
           spacing: 16,
           children: [
             Text(
@@ -38,9 +38,53 @@ class LoginView extends StatelessWidget {
             ),
             TextFormField(
               decoration: const InputDecoration(
-                labelText: 'Password',
+                hint: Row(
+                  mainAxisAlignment: .spaceBetween,
+                  children: [Text('Password'), Icon(Icons.visibility_outlined)],
+                ),
                 border: OutlineInputBorder(),
               ),
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: false,
+                  onChanged: (bool? value) {},
+                  materialTapTargetSize: .shrinkWrap,
+                ),
+                SizedBox(width: 8),
+                Text('Remember Me'),
+                Spacer(),
+                Text(
+                  'Forgot Password?',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ],
+            ),
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor:
+                    Theme.of(context).colorScheme.brightness == Brightness.dark
+                    ? Colors.white
+                    : Colors.black,
+              ),
+              onPressed: () {
+                // Handle login logic here
+              },
+              child: const Text('Login'),
+            ),
+            Divider(thickness: 2),
+            Text(
+              'New to Verve?',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+            OutlinedButton(
+              onPressed: () {
+                // Handle sign-up logic here
+              },
+              child: const Text('Sign Up'),
             ),
           ],
         ),
