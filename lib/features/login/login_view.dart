@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginView extends StatelessWidget {
   const new({super.key});
@@ -72,7 +71,7 @@ class LoginView extends StatelessWidget {
                     : Colors.black,
               ),
               onPressed: () {
-                // Handle login logic here
+                Navigator.pushReplacementNamed(context, '/main');
               },
               child: const Text('Login'),
             ),
@@ -83,7 +82,7 @@ class LoginView extends StatelessWidget {
             ),
             OutlinedButton(
               onPressed: () {
-                context.go('/register');
+                Navigator.pushNamed(context, '/register');
               },
               child: const Text('Sign Up'),
             ),
