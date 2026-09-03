@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
 class LoginView extends StatelessWidget {
   const new({super.key});
 
@@ -22,71 +24,85 @@ class LoginView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: .stretch,
-          spacing: 16,
-          children: [
-            Text(
-              'Welcome Back!',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: .stretch,
+            spacing: 16,
+            children: [
+              Text(
+                'Welcome Back!',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                hint: Row(
-                  mainAxisAlignment: .spaceBetween,
-                  children: [Text('Password'), Icon(Icons.visibility_outlined)],
+              TextFormField(
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter your email' : null,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
                 ),
-                border: OutlineInputBorder(),
               ),
-            ),
-            Row(
-              children: [
-                Checkbox(
-                  value: false,
-                  onChanged: (bool? value) {},
-                  materialTapTargetSize: .shrinkWrap,
-                ),
-                SizedBox(width: 8),
-                Text('Remember Me'),
-                Spacer(),
-                Text(
-                  'Forgot Password?',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
+              TextFormField(
+                obscureText: true,
+                validator: (value) =>
+                    value!.isEmpty ? 'Please enter your password' : null,
+                decoration: const InputDecoration(
+                  hint: Row(
+                    mainAxisAlignment: .spaceBetween,
+                    children: [
+                      Text('Password'),
+                      Icon(Icons.visibility_outlined),
+                    ],
                   ),
+                  border: OutlineInputBorder(),
                 ),
-              ],
-            ),
-            FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor:
-                    Theme.of(context).colorScheme.brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
               ),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/main');
-              },
-              child: const Text('Login'),
-            ),
-            Divider(thickness: 2),
-            Text(
-              'New to Verve?',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/register');
-              },
-              child: const Text('Sign Up'),
-            ),
-          ],
+              Row(
+                children: [
+                  Checkbox(
+                    value: false,
+                    onChanged: (bool? value) {},
+                    materialTapTargetSize: .shrinkWrap,
+                  ),
+                  SizedBox(width: 8),
+                  Text('Remember Me'),
+                  Spacer(),
+                  Text(
+                    'Forgot Password?',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ],
+              ),
+              FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor:
+                      Theme.of(context).colorScheme.brightness ==
+                          Brightness.dark
+                      ? Colors.white
+                      : Colors.black,
+                ),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Navigator.pushReplacementNamed(context, '/main');
+                  }
+                },
+                child: const Text('Login'),
+              ),
+              Divider(thickness: 2),
+              Text(
+                'New to Verve?',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/register');
+                },
+                child: const Text('Sign Up'),
+              ),
+            ],
+          ),
         ),
       ),
     );

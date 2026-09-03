@@ -9,6 +9,7 @@ import 'package:paw_print/features/home/widgets/winter_sale.dart';
 
 class HomeView extends StatelessWidget {
   final List<Widget> widgets = [
+    SizedBox(height: 8),
     SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       scrollDirection: Axis.horizontal,
@@ -20,12 +21,13 @@ class HomeView extends StatelessWidget {
           CategoryChip(label: 'Clothes'),
 
           CategoryChip(label: 'Shoes'),
-          CategoryChip(label: 'Shoes'),
-          CategoryChip(label: 'Shoes'),
-          CategoryChip(label: 'Shoes'),
+          CategoryChip(label: 'T-Shirts'),
+          CategoryChip(label: 'Pants'),
+          CategoryChip(label: 'Jackets'),
         ],
       ),
     ),
+    SizedBox(height: 8),
     ShoeCard(),
     BestSellersSection(),
     SizedBox(height: 8),

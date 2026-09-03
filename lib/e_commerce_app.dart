@@ -3,7 +3,6 @@ import 'package:paw_print/features/favourites/favourites_view.dart';
 import 'package:paw_print/features/home/home_view.dart';
 import 'package:paw_print/features/login/login_view.dart';
 import 'package:paw_print/features/main_view.dart';
-import 'package:paw_print/features/product/product_view.dart';
 import 'package:paw_print/features/register/register_view.dart';
 import 'package:paw_print/features/splash/splash_view.dart';
 
@@ -13,6 +12,7 @@ class ECommerceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (context) => SplashView(
@@ -23,7 +23,6 @@ class ECommerceApp extends StatelessWidget {
         '/favorites': (context) => const FavoritesView(),
         '/main': (context) => const MainView(),
         '/home': (context) => HomeView(),
-        '/product': (context) => const ProductView(),
 
         // '/settings': (context) => const SettingsView(),
       },

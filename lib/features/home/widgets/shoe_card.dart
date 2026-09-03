@@ -25,11 +25,19 @@ class ShoeCard extends StatelessWidget {
               children: [
                 Text(
                   'Hot drops',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black,
+                  ),
                 ),
                 Text(
                   'Must have sneakers',
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 FilledButton(

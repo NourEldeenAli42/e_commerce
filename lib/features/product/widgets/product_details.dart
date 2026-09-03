@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:paw_print/core/models/product_model.dart';
+import 'package:paw_print/core/providers/magic_provider.dart';
+import 'package:paw_print/core/providers/products_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetails extends StatelessWidget {
-  const new({super.key});
+  final ProductModel product;
+  const new({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -12,18 +17,18 @@ class ProductDetails extends StatelessWidget {
         crossAxisAlignment: .stretch,
         children: [
           Text(
-            'Nike',
+            product.name,
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           Row(
             mainAxisAlignment: .spaceBetween,
             children: [
               Text(
-                'Solesprinter',
+                product.category,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
               ),
               Text(
-                '\$120',
+                '\$${product.price}',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ],
@@ -38,14 +43,27 @@ class ProductDetails extends StatelessWidget {
             ],
           ),
           FilledButton(
-            onPressed: () {},
+            onPressed: () {
+              if (!context.read<MagicProvider>().isMagicEnabled) {
+                return;
+              }
+              if (context.read<ProductsProvider>().cart.contains(product)) {
+                context.read<ProductsProvider>().removeFromCart(product);
+              } else {
+                context.read<ProductsProvider>().addToCart(product);
+              }
+            },
             style: FilledButton.styleFrom(
               backgroundColor:
                   Theme.of(context).colorScheme.brightness == Brightness.dark
                   ? Colors.white
                   : Colors.black,
             ),
-            child: Text('Add to Bag'),
+            child: Text(
+              context.watch<ProductsProvider>().cart.contains(product)
+                  ? 'Remove from Cart'
+                  : 'Add to Cart',
+            ),
           ),
         ],
       ),

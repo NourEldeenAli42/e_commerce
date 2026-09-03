@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:paw_print/core/providers/navigation_provider.dart';
+import 'package:paw_print/features/cart/cart_view.dart';
 import 'package:paw_print/features/favourites/favourites_view.dart';
 import 'package:paw_print/features/home/home_view.dart';
 import 'package:paw_print/features/profile/profile_view.dart';
+import 'package:paw_print/features/search/search_view.dart';
+import 'package:paw_print/features/settings/settings_view.dart';
+import 'package:provider/provider.dart';
 
 class MainView extends StatefulWidget {
   const new({super.key});
@@ -12,96 +17,131 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
+  List<Widget> screens = [
+    HomeView(),
+    SearchView(),
+    const FavoritesView(),
+    const CartView(),
+    const ProfileView(),
+  ];
   Widget activeScreen = HomeView();
   int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final navigation = context.watch<NavigationProvider>();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: Text(
           'Verve',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        actions: [
-          Icon(
-            Icons.search,
-            color: Theme.of(context).colorScheme.brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
-            size: 30,
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onPrimary,
           ),
-          const SizedBox(width: 10),
-          Icon(
-            Icons.shopping_bag_outlined,
-            color: Theme.of(context).colorScheme.brightness == Brightness.dark
-                ? Colors.white
-                : Colors.black,
-            size: 30,
+        ),
+
+        actions: [
+          IconButton(
+            icon: SvgPicture.asset(
+              'assets/icons/SearchMenu.svg',
+              height: 24,
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.onPrimary,
+                BlendMode.srcIn,
+              ),
+            ),
+            onPressed: () => context.read<NavigationProvider>().changeTab(1),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.settings,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsView()),
+              );
+            },
           ),
         ],
-        actionsPadding: const EdgeInsets.all(16),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        onTap: (value) {
-          switch (value) {
-            case 0:
-              setState(() {
-                activeScreen = HomeView();
-                currentIndex = 0;
-              });
-              break;
-            case 1:
-              // setState(() {
-              //   activeScreen = const SearchView();
-              // });
-              break;
-            case 2:
-              setState(() {
-                activeScreen = const FavoritesView();
-                currentIndex = 2;
-              });
-              break;
-            case 3:
-              // setState(() {
-              //   activeScreen = const CartView();
-              // });
-              break;
-            case 4:
-              setState(() {
-                activeScreen = const ProfileView();
-                currentIndex = 4;
-              });
-              break;
-          }
+
+      body: IndexedStack(index: navigation.currentIndex, children: screens),
+
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: navigation.currentIndex,
+
+        onDestinationSelected: (index) {
+          context.read<NavigationProvider>().changeTab(index);
         },
-        items: [
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/icons/home.svg'),
+
+        destinations: [
+          NavigationDestination(
+            icon: SvgPicture.asset('assets/icons/home.svg', height: 24),
+            selectedIcon: SvgPicture.asset(
+              'assets/icons/home.svg',
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.primary,
+                BlendMode.srcIn,
+              ),
+              height: 24,
+            ),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/icons/SearchMenu.svg'),
+          NavigationDestination(
+            icon: SvgPicture.asset('assets/icons/SearchMenu.svg', height: 24),
+            selectedIcon: SvgPicture.asset(
+              'assets/icons/SearchMenu.svg',
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.primary,
+                BlendMode.srcIn,
+              ),
+              height: 24,
+            ),
             label: 'Search',
           ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/icons/heart.svg'),
+          NavigationDestination(
+            icon: SvgPicture.asset('assets/icons/heart.svg', height: 24),
+            selectedIcon: SvgPicture.asset(
+              'assets/icons/heart.svg',
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.primary,
+                BlendMode.srcIn,
+              ),
+              height: 24,
+            ),
             label: 'Favorites',
           ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/icons/cart.svg'),
+          NavigationDestination(
+            icon: SvgPicture.asset('assets/icons/cart.svg', height: 24),
+            selectedIcon: SvgPicture.asset(
+              'assets/icons/cart.svg',
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.primary,
+                BlendMode.srcIn,
+              ),
+              height: 24,
+            ),
             label: 'Cart',
           ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset('assets/icons/user.svg'),
+          NavigationDestination(
+            icon: SvgPicture.asset('assets/icons/user.svg', height: 24),
+            selectedIcon: SvgPicture.asset(
+              'assets/icons/user.svg',
+              colorFilter: ColorFilter.mode(
+                Theme.of(context).colorScheme.primary,
+                BlendMode.srcIn,
+              ),
+              height: 24,
+            ),
             label: 'Profile',
           ),
         ],
-        currentIndex: currentIndex,
       ),
-      body: activeScreen,
     );
   }
 }
